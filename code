@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Psychology of Money - Morgan Housel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a4d2e;
+            --secondary: #d4a574;
+            --accent: #ff6b35;
+            --dark: #0f2818;
+            --light: #f8f4ed;
+            --cream: #faf7f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            opacity: 0.15;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(50px, 50px) rotate(180deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--cream);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        .hero-author {
+            font-size: 1.3rem;
+            color: var(--light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            animation: fadeInUp 1.6s ease-out;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--secondary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .intro-section {
+            background: var(--light);
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .intro-section::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            font-size: 15rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary);
+            opacity: 0.1;
+            line-height: 1;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.4rem;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 4px;
+            padding: 3rem 2.5rem;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lesson-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .lesson-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--secondary);
+            opacity: 0.2;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            line-height: 1;
+        }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .lesson-content {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-quote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            font-style: italic;
+            color: var(--primary);
+            margin-top: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .key-concepts {
+            background: var(--primary);
+            color: var(--cream);
+            padding: 6rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .key-concepts h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            font-weight: 900;
+        }
+
+        .concepts-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .concept-item {
+            background: rgba(255,255,255,0.05);
+            padding: 2.5rem 2rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .concept-item:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--secondary);
+            transform: scale(1.03);
+        }
+
+        .concept-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .concept-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .concept-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #e85a2f 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            font-weight: 900;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .action-card {
+            background: rgba(255,255,255,0.15);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-5px);
+        }
+
+        .action-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .action-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--cream);
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        footer a:hover {
+            border-bottom-color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The Psychology of Money</h1>
+            <p class="hero-subtitle">Zenginlik, Açgözlülük ve Mutluluk Hakkında Zamansız Dersler</p>
+            <p class="hero-author">Morgan Housel</p>
+        </div>
+        <div class="scroll-indicator">↓ Keşfet</div>
+    </section>
+
+    <section class="intro-section">
+        <div class="container">
+            <div class="intro-text">
+                Para yönetimi bir matematik problemi değil, davranış problemidir. 
+                En akıllı insanlar bile duygularının ve psikolojilerinin etkisi altında 
+                kötü finansal kararlar alabilirler. Bu uygulama, paranın gerçek doğasını 
+                anlamanıza ve daha iyi finansal kararlar almanıza yardımcı olacak.
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="lessons-grid">
+            <div class="lesson-card">
+                <div class="lesson-number">01</div>
+                <h3 class="lesson-title">Kimse Çılgın Değildir</h3>
+                <p class="lesson-content">
+                    Herkesin farklı deneyimleri, farklı bakış açıları oluşturur. 
+                    Size mantıksız gelen bir finansal karar, başka birinin yaşadıklarına 
+                    göre son derece mantıklı olabilir. Kişisel deneyimlerimiz, 
+                    dünya nasıl işler konusunda algımızı şekillendirir.
+                </p>
+                <div class="lesson-quote">
+                    "Hiçbir finansal karar saf bir matematik problemi değildir."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">02</div>
+                <h3 class="lesson-title">Şans ve Risk</h3>
+                <p class="lesson-content">
+                    Başarı ve başarısızlık, yalnızca çaba ve kararların değil, 
+                    şans ve riskin de ürünüdür. Bill Gates'in başarısında şansın 
+                    rolünü kabul etmek, aynı zamanda başarısızlıkta da şansın 
+                    rolünü kabul etmek demektir.
+                </p>
+                <div class="lesson-quote">
+                    "Her şey her zaman olduğundan daha iyi veya daha kötü görünür."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">03</div>
+                <h3 class="lesson-title">Asla Yeterli Değil</h3>
+                <p class="lesson-content">
+                    Başarılı insanların bile daha fazlasını isterken her şeylerini 
+                    kaybetmesi, "yeterli" kavramını anlamanın önemini gösterir. 
+                    Riskli bahislere girmeden önce, "yeterli"in ne olduğunu bilmek 
+                    kritik öneme sahiptir.
+                </p>
+                <div class="lesson-quote">
+                    "Neyin sizi mutlu edeceğini bilmiyorsanız, asla yeteri kadar paranız olmayacak."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">04</div>
+                <h3 class="lesson-title">Bileşik Faizin Gücü</h3>
+                <p class="lesson-content">
+                    Warren Buffett'in servetinin %99'undan fazlası 50 yaşından sonra 
+                    geldi. Sırrı? Genç yaşta başladı ve asla durmadı. 
+                    Bileşik faiz, zamana ihtiyaç duyar - ve başarının gerçek sırrı 
+                    bu zamana sahip olmaktır.
+                </p>
+                <div class="lesson-quote">
+                    "İyi yatırım, akıllı değil, sabırlı olmakla ilgilidir."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">05</div>
+                <h3 class="lesson-title">Zengin Olmak vs. Zengin Kalmak</h3>
+                <p class="lesson-content">
+                    Zengin olmak ve zengin kalmak iki farklı beceri gerektirir. 
+                    Zengin olmak cesaret gerektirir; zengin kalmak ise alçakgönüllülük, 
+                    korku ve paranoyayı dengeler. Hayatta kalmak, başarının ön koşuludur.
+                </p>
+                <div class="lesson-quote">
+                    "Planınız esnek olmadığı sürece en iyi planınız bile işe yaramaz."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">06</div>
+                <h3 class="lesson-title">Kuyruk Olayları</h3>
+                <p class="lesson-content">
+                    Amazon'un 2018'de yaptığı bin yatırımın sadece birkaçı, 
+                    şirketin toplam getirisinin çoğunluğunu oluşturdu. 
+                    Aynı şey hayatınız için de geçerlidir - birkaç büyük karar, 
+                    binlerce küçük karardan daha önemlidir.
+                </p>
+                <div class="lesson-quote">
+                    "Çoğu zaman yanılabilirsiniz ve yine de başarılı olabilirsiniz."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">07</div>
+                <h3 class="lesson-title">Özgürlük</h3>
+                <p class="lesson-content">
+                    Paranın en büyük değeri, size istediğiniz zaman, istediğiniz 
+                    kişilerle, istediğiniz şeyi yapma özgürlüğü vermesidir. 
+                    Bu, paranın sağlayabileceği en yüksek temettüdür.
+                </p>
+                <div class="lesson-quote">
+                    "Zamanınız üzerinde kontrole sahip olmak, paranın alabileceği en yüksek temettüdür."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">08</div>
+                <h3 class="lesson-title">Birikim Yapma Sanatı</h3>
+                <p class="lesson-content">
+                    Servet biriktirmenin tek yolu harcadığınızdan daha azını 
+                    kazanmaktır. Egonuzu kontrol edin, ihtiyaçlarınızı 
+                    isteklerinizle karıştırmayın. Zenginlik gözle görünendir; 
+                    birikim ise gözle görülmeyendir.
+                </p>
+                <div class="lesson-quote">
+                    "Para kazanmaktan çok para harcamamak servet inşa eder."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">09</div>
+                <h3 class="lesson-title">Makul > Rasyonel</h3>
+                <p class="lesson-content">
+                    Finansal kararlarınızda tamamen rasyonel olmaya çalışmayın. 
+                    Uyku uyumanızı sağlayan, geceleyin endişelenmemenizi sağlayan 
+                    kararları alın. Makul olmak, rasyonelden daha iyidir.
+                </p>
+                <div class="lesson-quote">
+                    "Matematiksel olarak optimal olanı yapmak, her zaman en iyi seçim değildir."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">10</div>
+                <h3 class="lesson-title">Hata Payı</h3>
+                <p class="lesson-content">
+                    En önemli finansal beceri, planlarınıza hata payı bırakmaktır. 
+                    Gelecek belirsizdir. Geleceğin tahmin edilemez olduğunu kabul 
+                    eden bir plan yapın. Daima güvenlik ağı bırakın.
+                </p>
+                <div class="lesson-quote">
+                    "Hata payı, risk ile paranoya arasındaki farkı yaratır."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">11</div>
+                <h3 class="lesson-title">Gölgelerin Altındaki Fiyat</h3>
+                <p class="lesson-content">
+                    Her şeyin bir fiyatı vardır. Başarılı yatırımcılık için ödenen 
+                    fiyat, piyasa dalgalanmalarını kabul etmektir. Bu fiyatı ödemek 
+                    istemiyorsanız, getirilerden de vazgeçmelisiniz.
+                </p>
+                <div class="lesson-quote">
+                    "Tüm hisselerin üzerinde görünmeyen bir fiyat etiketi vardır."
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">12</div>
+                <h3 class="lesson-title">Sizsin Sen</h3>
+                <p class="lesson-content">
+                    Başkalarının finansal stratejileri sizin için uygun olmayabilir. 
+                    Herkesin hedefleri, zaman ufukları ve riskleri farklıdır. 
+                    Başkalarının oynadığı oyunu oynamayın; kendi oyununuzu oynayın.
+                </p>
+                <div class="lesson-quote">
+                    "Başkalarının parasıyla aldıkları kararlardan ders almaya çalışmayın."
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="key-concepts">
+        <h2>Temel Konseptler</h2>
+        <div class="concepts-wrapper">
+            <div class="concept-item">
+                <span class="concept-icon">🎯</span>
+                <h3 class="concept-title">Yeterli Olmak</h3>
+                <p class="concept-desc">
+                    "Yeterli" kavramını anlamak, finansal başarının temelidir. 
+                    Daha fazla her zaman daha iyi değildir.
+                </p>
+            </div>
+
+            <div class="concept-item">
+                <span class="concept-icon">⏰</span>
+                <h3 class="concept-title">Zaman Değeri</h3>
+                <p class="concept-desc">
+                    Bileşik faiz sihir değil, sabır işidir. Zamana izin verin 
+                    paranızın büyümesine.
+                </p>
+            </div>
+
+            <div class="concept-item">
+                <span class="concept-icon">🛡️</span>
+                <h3 class="concept-title">Hata Payı</h3>
+                <p class="concept-desc">
+                    Belirsizliğe karşı tampon bölge oluşturun. Planlarınızda 
+                    her zaman güvenlik ağı bulundurun.
+                </p>
+            </div>
+
+            <div class="concept-item">
+                <span class="concept-icon">🌊</span>
+                <h3 class="concept-title">Volatiliteyi Kabul</h3>
+                <p class="concept-desc">
+                    Piyasa dalgalanmaları kaçınılmazdır. Bu volatilite, 
+                    uzun vadeli getirilerin fiyatıdır.
+                </p>
+            </div>
+
+            <div class="concept-item">
+                <span class="concept-icon">💎</span>
+                <h3 class="concept-title">Basitlik</h3>
+                <p class="concept-desc">
+                    Karmaşık stratejiler her zaman daha iyi değildir. 
+                    Basit ve tutarlı olmak güçlüdür.
+                </p>
+            </div>
+
+            <div class="concept-item">
+                <span class="concept-icon">🎭</span>
+                <h3 class="concept-title">Psikoloji > Matematik</h3>
+                <p class="concept-desc">
+                    Finansal başarı, doğru formülleri bilmekten çok, 
+                    doğru davranışları sergilemekle ilgilidir.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Bugün Harekete Geç</h2>
+        <p>
+            Bu öğretileri hayatınıza uygulamak için somut adımlar atın. 
+            Finansal özgürlüğe giden yol, bugün atılacak küçük adımlarla başlar.
+        </p>
+        
+        <div class="action-grid">
+            <div class="action-card">
+                <div class="action-number">1</div>
+                <p class="action-text">
+                    Acil durum fonu oluştur (6 aylık masraf)
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-number">2</div>
+                <p class="action-text">
+                    Gelirinin %10-20'sini otomatik biriktir
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-number">3</div>
+                <p class="action-text">
+                    Düşük maliyetli endeks fonlarına yatırım yap
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-number">4</div>
+                <p class="action-text">
+                    Borçlarını yüksek faizden düşüğe doğru öde
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-number">5</div>
+                <p class="action-text">
+                    Harcamalarını takip et, egoyu kontrol et
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="action-number">6</div>
+                <p class="action-text">
+                    Uzun vadeli düşün, kısa vadeli gürültüyü görmezden gel
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            Bu uygulama Morgan Housel'in "The Psychology of Money" kitabından ilham alınarak oluşturulmuştur.<br>
+            Kitabı okumak için: <a href="https://www.goodreads.com/book/show/41881472-the-psychology-of-money" target="_blank">Goodreads</a>
+        </p>
+        <p style="margin-top: 1rem; opacity: 0.7;">
+            © 2026 - Eğitim amaçlı hazırlanmıştır
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll for indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.intro-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.lesson-card, .concept-item, .action-card').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
+            }
+        });
+    </script>
+</body>
+</html>
